@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML input 요소</title>
+  <style>
+    main {
+      width: 70%;
+      min-width: 300px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>신청 양식</h1>
+    <form action="" method="GET">
+      
+      <fieldset>
+        <legend>정보</legend>
+        <div>
+          <label for="username">이름</label>
+          <input id="username" name="name" type="text" required>
+        </div>
+        <div>
+          <label for="email">메일</label>
+          <input id="email" name="email" type="email">
+        </div>
+        <div>
+          <label for="phone">전화</label>
+          <input id="phone" name="phone" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
+        </div>
+
+      </fieldset>
+
+      <fieldset>
+        <legend>가고싶은 기업을 선택하세요</legend>
+          <input type="checkbox" id="company1" name="company" value="naver" checked>
+          <label for="company1" >네이버</label>
+
+          <input type="checkbox" id="company2" name="company" value="kakao">
+          <label for="company2" >카카오</label>
+
+          <input type="checkbox" id="company3" name="company" value="line">
+          <label for="company3" >라인</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>나이를 선택하세요</legend>
+          <input type="radio" name="age" id="age1">
+          <label for="age1">10대 이하</label>
+          <input type="radio" name="age" id="age2">
+          <label for="age2">20대</label>
+          <input type="radio" name="age" id="age3">
+          <label for="age3">30대</label>
+          <input type="radio" name="age" id="age4">
+          <label for="age4">40대</label>
+          <input type="radio" name="age" id="age5">
+          <label for="age5">50대 이상</label>
+        </fieldset>
+
+      <div>
+        <input type="reset">
+        <input type="submit">
+      </div>
+    </form>
+  </main>
+</body>
+</html>
