@@ -1,7 +1,5 @@
 (function main() {
-  test(30, 10, false);
-  test(30, 100, false);
-  test(30, 1000, false);
+  test(1000, 10, false);
 })();
 
 
@@ -10,8 +8,8 @@
  * 배열에 값이 존재하지 않을 경우 -1을 반환합니다.
  * 자료의 개수 N에 대해 O(logN)의 시간복잡도를 갖습니다.
  *  
- * @param {*[]} arr 오름차순 정렬된 배열
- * @param {*} target 찾고자 하는 값
+ * @param {number[]} arr 오름차순 정렬된 배열
+ * @param {number} target 찾고자 하는 값
  * 
  * @returns {number} target의 인덱스, 없을 경우 -1
  */
@@ -82,6 +80,8 @@ function test(count = 10, arrLength = 10, logCaseResult = true) {
     const target = getRandomItem(arr);
     const { index, searchCount } =  binarySearchForTest(arr, target);
     searchCountTotal += searchCount;
+
+    const result = arr.findIndex(item => item === target) === index;
     
     if (logCaseResult) {
       console.log(`
@@ -91,9 +91,11 @@ function test(count = 10, arrLength = 10, logCaseResult = true) {
         index  : ${index}
         count  : ${searchCount}
 
-        result: ${arr.findIndex(item => item === target) === index}
+        result: ${result}
       `);
     }
+
+    if (!result) console.log(`틀렸습니다.\n${arr}\n${target}\n${index}`);
   }
 
   console.log(`
