@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>Margin Collapsing</title>
+  <style>
+    body { 
+      max-width: 800px; 
+      margin: auto;
+      padding-top: 2rem; 
+      padding-bottom: 2rem;
+      background-color: #efefef;
+    }
+
+    .container {
+      background-color: white;
+      margin-bottom: 2rem;
+      padding: 2rem;
+    }
+
+    h2 { margin-top: 0; }
+
+    .box {
+      height: 100px;
+      text-align: center;
+    }
+
+    .box1 { 
+      border: 1px solid red;
+      margin-bottom: 100px; 
+    }
+
+    .box2 { 
+      border: 1px solid blue;
+      margin-top: 50px; 
+    }
+
+    .parent {
+      text-align: center;
+      height: 160px;
+      margin-top: 50px;
+      background-color:mediumaquamarine;
+    }
+
+    .child {
+      text-align: center;
+      height: 50px;
+      margin-top: 50px;
+      background-color: palegreen;
+    }
+
+    .full {
+      text-align: center;
+      height: 50px;
+      background-color: lightblue;
+    }
+
+    .empty {
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>1. 인접 형제 요소</h2>
+    <div class="box box1">
+      height: 100px;<br>
+      margin-bottom: 100px;
+    </div>
+    <div class="box box2">
+      height: 100px; <br>
+      margin-top: 50px;
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>2. 부모-자손 분리 콘텐츠 없음</h2>
+    <h3>2.1 마진상쇄</h3>
+    <div class="parent">
+      <div class="child">
+        margin-top: 50px;
+      </div>
+      margin-top: 50px;
+    </div>
+
+    <h3>2.2 마진상쇄 해제 - inline content</h3>
+    <div class="parent">
+      텍스트를 통해 경계가 생성됩니다.
+      <div class="child">margin-top: 50px;</div>
+      margin-top: 50px;
+    </div>
+
+    <h3>2.3 마진상쇄 해제 - padding</h3>
+    <div class="parent" style="padding-top: 5px;">
+      <div class="child">margin-top: 50px;</div>
+      margin-top: 50px; <br>
+      padding-top: 5px;
+    </div>
+
+    <h3>2.4 마진상쇄 해제 - border</h3>
+    <div class="parent"  style="border-top: 1px solid black;">
+      <div class="child">margin-top: 50px;</div>
+      margin-top: 50px; <br>
+      border-top: 1px solid black;
+    </div>
+  </div>
+
+  <div class="container">
+    <h3>3. 빈 요소</h3>
+    <div class="full">height: 50px;</div>
+    <div class="empty"></div>
+    <div class="full">height: 50px;</div>
+  </div>
+</body>
+</html>
