@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS flexbox</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      min-height: 50vh;
+      border: 1px solid black;
+    }
+
+    .container > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      min-width: 10vw;
+      min-height: 10vh;
+      border: 1px solid black;
+
+      font-size: 2rem;
+      background-color:lightgrey;
+      transition: 200ms;
+    }
+
+    .container > div:hover {
+      cursor: pointer;
+    }
+
+    .container > div.target {
+      background-color:royalblue;
+    }
+
+    label {
+      display: inline-block;
+      width: 10rem;
+    }
+
+    .options > div {
+      margin: 50px auto;
+    }
+
+    @media screen and (min-width: 768px) {  
+      .options {
+        display: flex;
+        justify-content: space-evenly;
+      }
+
+      .options > div {
+        flex-basis: 350px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Flexbox 연습하기</h1>
+  <div class="container-style"></div>
+  <div class="container"></div>
+
+  <button id="reset">초기화</button>
+  <button id="add-child">자식요소 추가</button>
+  <button id="select-all">자식요소 전체 선택</button>
+  <button id="unselect-all">자식요소 전체 취소</button>
+  
+  <div class="options">
+    <div class="container-options">
+      <h2>컨테이너 프로퍼티 설정</h2>
+    </div>
+    <div class="item-options">
+      <h2>아이템 프로퍼티 설정</h2>
+    </div>
+  </div>
+
+  <script>
+    const $container = document.querySelector('.container');
+
+    // data
+    const flexContainerSelectData = [
+      {
+        id: 'flex-direction',
+        values: ['row', 'row-reverse', 'column', 'column-reverse'],
+      },
+      {
+        id: 'flex-wrap',
+        values: ['nowrap', 'wrap', 'wrap-reverse'],
+      },
+      {
+        id: 'justify-content',
+        values: ['normal', 'start', 'end', 'flex-start', 'flex-end', 'center', 'left', 'right', 'space-between', 'space-around', 'space-evenly', 'stretch'],
+      },
+      {
+        id: 'align-items',
+        values: ['normal', 'center', 'flex-start', 'flex-end', 'start', 'end', 'baseline', 'stretch']
+      },
+    ];
+
+    const flexItemSelectData = [
+      {
+        id: 'flex-grow',
+        values: [0, 1, 2, 3, 4, 5],
+      },
+      {
+        id: 'flex-shrink',
+        values: [0, 1, 2, 3, 4, 5],
+      },
+      {
+        id: 'flex-basis',
+        values: ['auto', 0, '100px', '200px', '100vw'],
+      },
+      {
+        id: 'order',
+        values: [0, 1, 2, 3, 4, 5],
+      },
+      {
+        id: 'align-self',
+        values: ['normal', 'center', 'flex-start', 'flex-end', 'start', 'end', 'baseline', 'stretch'],
+      },
+    ];
+
+    const createFlexItem = (() => {
+      let id = 1;
+
+      return () => {
+        const div = document.createElement('div');
+        div.innerText = id++;
+        return div;
+      }
+    })();
+
+    const handleClickContainer = ({ target }) => {
+
+      if (target.parentNode !== $container) {
+        return;
+      }
+
+      if (target.classList.contains('target')) {
+        target.classList.remove('target');
+        return;
+      }
+      
+      target.classList.add('target');
+    }
+
+    const createSelect = (selector, item, listener) => {
+      const { id, values } = item;
+      const div = document.createElement('div');
+      
+      div.innerHTML = `
+        <label for="${id}">${id}</label>
+        <select id="${id}">
+          ${ values.map(value => `<option value="${value}">${value}</option>`).join('') }
+        </select>
+      `;
+
+      div
+      .querySelector('select')
+      .addEventListener('change', listener);
+
+      document
+      .querySelector(selector)
+      .append(div);
+    }
+
+    $container.addEventListener('click', handleClickContainer);
+
+    flexContainerSelectData
+    .forEach(item => createSelect(
+      '.container-options', 
+      item,
+      e => $container.style[item.id] = e.target.value),
+    );
+
+    flexItemSelectData
+    .forEach(item => createSelect(
+      '.item-options',
+      item,
+      e => {
+        const targetList = Array
+        .from($container.childNodes)
+        .filter(target => target.classList.contains('target'));
+
+        if (!targetList.length) return;
+        targetList.forEach($el => $el.style[item.id] = e.target.value);
+    }));
+
+    document
+    .querySelector('#reset')
+    .addEventListener('click', () => {
+      $container.style.cssText = '';
+      $container.innerHTML = '';
+    });
+
+    document
+    .querySelector('#add-child')
+    .addEventListener('click', () => $container.append(createFlexItem()));
+
+    document
+    .querySelector('#select-all')
+    .addEventListener('click', e => {
+      Array
+      .from($container.childNodes)
+      .forEach($el => $el.classList.add('target'));
+    });
+
+    document
+    .querySelector('#unselect-all')
+    .addEventListener('click', () => {
+      Array
+      .from($container.childNodes)
+      .forEach($el => $el.classList.remove('target'));
+    });
+
+  </script>
+</body>
+</html>
