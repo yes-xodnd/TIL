@@ -7,56 +7,38 @@
 
 
 [풀이]
-소득, 추천인 Node 정보를 저장하고 수익분배 메소드를 갖는
-Node 클래스를 정의하여 사용하였습니다.
-
-Node에 대한 참조는 이름으로 접근할 수 있도록 객체를 Hashmap으로 사용하였습니다.
+처음에는 추천인 Node와 수익금 속성과 판매수익 분배 메서드를 가진 Node 클래스를 정의하여 풀이하였습니다. 하지만 Node 클래스에서 
 */
-
-class Node {
-  constructor() {
-    this.ref = null;
-    this.profit = 0;
-  }
-
-  addRef(refNode) {
-    this.ref = refNode;
-  }
-
-  sell(total) {
-    const dividend = parseInt(total / 10);
-
-    if (dividend === 0) {
-      this.profit += total;
-    } else {
-      this.profit += total - dividend;
-      if (this.ref) this.ref.sell(dividend);
-    }
-  }
-}
 
 function solution(enroll, referral, seller, amount) {
   const register = {};
 
   for (const name of enroll) {
-    register[name] = new Node();
+    register[name] = { ref: null, profit: 0 };
   }
 
   for (let i = 0; i < referral.length; i++) {
     if (referral[i] === "-") continue;
-
-    const node = register[enroll[i]];
-    const refNode = register[referral[i]];
-
-    node.addRef(refNode);
+    register[enroll[i]].ref = register[referral[i]];
   }
 
-
   for (let i = 0; i < seller.length; i++) {
-    register[seller[i]].sell(amount[i] * 100);
+    divide(register[seller[i]], amount[i] * 100);
   }
 
   return enroll.map(name => register[name].profit);
+
+  function divide(node, total) {
+    const dividend = parseInt(total / 10);
+    
+    if (dividend) {
+      node.profit += total - dividend;
+      if (node.ref) divide(node.ref, dividend);
+
+    } else {
+      node.profit += total;
+    }
+  }
 }
 
 const answer = solution(
