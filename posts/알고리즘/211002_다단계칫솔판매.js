@@ -7,7 +7,8 @@
 
 
 [풀이]
-처음에는 추천인 Node와 수익금 속성과 판매수익 분배 메서드를 가진 Node 클래스를 정의하여 풀이하였습니다. 하지만 Node 클래스에서 
+조직원 노드마다 추천인 노드의 참조를 저장하여
+트리를 탐색해 올라갈 수 있도록 구현하였습니다.
 */
 
 function solution(enroll, referral, seller, amount) {
