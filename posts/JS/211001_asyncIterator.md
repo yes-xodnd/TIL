@@ -32,6 +32,8 @@ asyncIterable.next(); // Promise { <pending> }
 
 비동기 제너레이터 함수를 이용하면 간단하게 비동기 이터레이터를 생성할 수 있습니다. 제너레이터 함수 선언문 앞에 `async` 키워드를 붙여 간단하게 비동기 제너레이터 함수를 만들 수 있습니다.
 
+프로미스를 `yield`하여 비동기적인 작업을 순차적으로 수행하도록 할 수 있으며, 내부에서 `await` 키워드를 사용할 수도 있습니다.
+
 ``` js
 const asyncRequest = id => new Promise(resolve => setTimeout(resolve, 500, id));
 
